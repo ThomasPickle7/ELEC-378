@@ -12,10 +12,10 @@ from scipy.spatial import distance
 from sklearn.preprocessing import StandardScaler
 from sklearn.cluster import KMeans
 
-image = im.imread('ELEC-378\ELEC-378\HW3\smashbros.png')
-# plt.imshow(image)
-# plt.title('Original Image')
-# plt.show()
+image = im.imread('ELEC-378\ELEC-378\HW3\objection.png')
+plt.imshow(image)
+plt.title('Original Image')
+plt.show()
 
 #turns the image into an n*3 array of RGB values
 
@@ -28,10 +28,10 @@ pca = PCA(n_components=2)
 pixels_transformed = pca.fit_transform(X)
 
 # Plot pixels in 2D space, with each pixel having its original color.
-# plt.scatter(pixels_transformed[:, 0], pixels_transformed[:, 1], c=X)
-# plt.xlabel('Feature 1')
-# plt.ylabel('Feature 2')
-# plt.show()
+plt.scatter(pixels_transformed[:, 0], pixels_transformed[:, 1], c=X)
+plt.xlabel('Feature 1')
+plt.ylabel('Feature 2')
+plt.show()
 
 def kmeans(X, k=3, max_iterations=100):
     '''
@@ -77,18 +77,18 @@ labels, centroids, = kmeans(X, k=K, max_iterations = 100)
 
 color_quantized_data_matrix = np.vstack(centroids[labels])
 
-# plt.imshow(color_quantized_data_matrix.reshape(image.shape))
-# plt.savefig('ELEC-378\ELEC-378\HW3\color_quantized_image.png')
-# plt.show()
+plt.imshow(color_quantized_data_matrix.reshape(image.shape))
+plt.savefig('ELEC-378\ELEC-378\HW3\color_quantized_image.png')
+plt.show()
 
 
-# kmeans = KMeans(n_clusters=K, random_state=0).fit(X)
+kmeans = KMeans(n_clusters=K, random_state=0).fit(X)
 
-# labels = kmeans.predict(X)
-# kmeans_flat = kmeans.cluster_centers_[labels]
+labels = kmeans.predict(X)
+kmeans_flat = kmeans.cluster_centers_[labels]
 
-# plt.imshow(kmeans_flat.reshape(image.shape))
-# plt.show()
+plt.imshow(kmeans_flat.reshape(image.shape))
+plt.show()
 
 plt.scatter(pixels_transformed[:, 0], pixels_transformed[:, 1], c=color_quantized_data_matrix)
 plt.xlabel('Feature 1')

@@ -33,31 +33,22 @@ for i, tag in enumerate(Y):
 plt.title("Types of Cancer")
 plt.show()
 
-# (c) Sorting genes by magnitude of coefficients in the most informative principal direction
-pca = PCA(n_components=2)
-pca.fit(X_c)
-most_informative_direction = np.argmax(np.abs(pca.components_), axis=0)
-sorted_genes_indices = np.argsort(np.abs(pca.components_[most_informative_direction[0]]))[::-1]
-
-# Display heatmap of the data matrix after sorting the columns
-plt.figure(figsize=(10, 6))
-plt.imshow(X[:, sorted_genes_indices], aspect='auto', cmap='viridis')
-plt.xlabel('Genes')
-plt.ylabel('Patients')
-plt.title('Heatmap of Gene Expression Data Sorted by Magnitude of Coefficients')
-plt.colorbar(label='Expression Level')
-plt.show()
-
-pca = PCA(n_components=10)  # Retain more than two principal components
-principal_components = pca.fit_transform(X_c)
-
-# Perform K-means clustering
-kmeans = KMeans(n_clusters=14)  # 14 different cancer types
-kmeans.fit(principal_components)
-
-# Visualize clusters
-plt.scatter(principal_components[:, 0], principal_components[:, 1], c=kmeans.labels_, cmap='viridis')
+for i, tag in enumerate(Y):
+    lower_tag = str(tag[0][0]).lower().replace(" ", "")
+    color = 'red' if lower_tag == 'melanoma' else 'blue'
+    plt.annotate(tag[0][0], (X_pca[i, 0], X_pca[i, 1]))
+    plt.scatter(X_pca[i, 0], X_pca[i, 1], color=color)
 plt.xlabel('Principal Component 1')
 plt.ylabel('Principal Component 2')
 plt.title('K-means Clustering of Patients (More Than 2 Components)')
+plt.show()
+
+sorter = np.argsort(X_vh[0])
+
+num_columns = min(100, X_vh.shape[1])
+plt.imshow(X[:, sorter[:num_columns]], aspect='auto', cmap='viridis')
+plt.colorbar()  # Add color bar for reference
+plt.xlabel('Gene Expressions')
+plt.ylabel('Cancer Diagnoses')
+plt.title('Heatmap of X after Sorting Columns')
 plt.show()
