@@ -1,24 +1,19 @@
 import numpy as np
 from scipy.io import loadmat
 import matplotlib.pyplot as plt
-import scipy.io as sc
-from scipy import signal, linalg
-import matplotlib
-import matplotlib.image as im
-import time
 from sklearn.decomposition import PCA
-import pandas as pd
-from scipy.spatial import distance
-from sklearn.preprocessing import StandardScaler
 from sklearn.cluster import KMeans
+import matplotlib.image as im
 
+# Load the image
 image = im.imread('ELEC-378\ELEC-378\HW3\objection.png')
+
+# Display the original image
 plt.imshow(image)
 plt.title('Original Image')
 plt.show()
 
-#turns the image into an n*3 array of RGB values
-
+# Flatten the image into an array of RGB values
 X = image.flatten().reshape(-1, 3)
 
 # Run PCA
@@ -27,7 +22,7 @@ pca = PCA(n_components=2)
 # Project pixels into 2D space
 pixels_transformed = pca.fit_transform(X)
 
-# Plot pixels in 2D space, with each pixel having its original color.
+# Plot pixels in 2D space, with each pixel having its original color
 plt.scatter(pixels_transformed[:, 0], pixels_transformed[:, 1], c=X)
 plt.xlabel('Feature 1')
 plt.ylabel('Feature 2')
@@ -35,18 +30,15 @@ plt.show()
 
 def kmeans(X, k=3, max_iterations=100):
     '''
+    K-means clustering algorithm.
+
+    Args:
     X: multidimensional data (ndarray)
     k: number of clusters (int)
     max_iterations: number of repetitions before clusters are established (int)
 
-    Steps:
-    1. Convert data to numpy array if necessary
-    2. Pick indices of k random points without replacement
-    3. Find class (P) of each data point using Euclidean distance.
-    4. Stop when max_iteration is reached or P matrix doesn't change.
-
-    Return:
-    P:         an np.array containing class of each data point
+    Returns:
+    P: an np.array containing class of each data point
     centroids: an np.array containing the centroid of each class
     '''
 
@@ -71,25 +63,32 @@ def kmeans(X, k=3, max_iterations=100):
 
     return P, centroids
 
+# Number of clusters for k-means
 K = 2 ** 6
 
-labels, centroids, = kmeans(X, k=K, max_iterations = 100)
+# Perform k-means clustering
+labels, centroids = kmeans(X, k=K, max_iterations=100)
 
+# Create a color-quantized image using the centroids found by k-means
 color_quantized_data_matrix = np.vstack(centroids[labels])
 
+# Display the color-quantized image
 plt.imshow(color_quantized_data_matrix.reshape(image.shape))
 plt.savefig('ELEC-378\ELEC-378\HW3\color_quantized_image.png')
 plt.show()
 
-
+# Perform k-means clustering using sklearn's KMeans
 kmeans = KMeans(n_clusters=K, random_state=0).fit(X)
 
+# Get the labels and cluster centers from sklearn's KMeans
 labels = kmeans.predict(X)
 kmeans_flat = kmeans.cluster_centers_[labels]
 
+# Display the color-quantized image obtained from sklearn's KMeans
 plt.imshow(kmeans_flat.reshape(image.shape))
 plt.show()
 
+# Plot the pixels in 2D space, using the color quantized data matrix
 plt.scatter(pixels_transformed[:, 0], pixels_transformed[:, 1], c=color_quantized_data_matrix)
 plt.xlabel('Feature 1')
 plt.ylabel('Feature 2')
