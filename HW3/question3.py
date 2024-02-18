@@ -54,13 +54,15 @@ plt.title('Heatmap of X after Sorting Columns')
 plt.show()
 
 # (d) Demonstrate K-means clustering with more than two principal components retained
-pca = PCA(n_components=32)  # Retaining more components
-X_pca = pca.fit_transform(X)
+K = 2 ** 6
+# Perform k-means clustering using sklearn's KMeans
+kmeans = KMeans(n_clusters=3, random_state=0).fit(X)
 
-# Perform K-means clustering
-kmeans = KMeans(n_clusters=14, random_state=0)
-labels = kmeans.fit_predict(X_pca)
+# Get the labels and cluster centers from sklearn's KMeans
+labels = kmeans.predict(X)
+kmeans_flat = kmeans.cluster_centers_[labels]
 
+# Display the color-quantized image obtained from sklearn's KMeans
 # Visualize clustering results
 for i, tag in enumerate(Y):
     plt.annotate(tag[0][0], (X_pca[i, 0], X_pca[i, 1]))

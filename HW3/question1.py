@@ -1,4 +1,3 @@
-# Import necessary libraries
 from scipy.io import loadmat
 import matplotlib.pyplot as plt
 import scipy.io as sc
