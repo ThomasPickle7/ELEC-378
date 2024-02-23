@@ -1,5 +1,5 @@
 import numpy as np
-
+import time
 # Define the gradient of the loss functions
 def grad_L1(w):
     return np.array([4*w[0] + w[1], w[0] - 8*w[1]])
@@ -19,6 +19,8 @@ def gradient_descent(gradient_funcs, w_init, alpha, num_iterations):
             gradient += gradient_func(w)
         w = w - alpha * gradient
     return w
+#print the runtime of the gradient_descent function
+
 
 
 # Define stochastic gradient descent algorithm
@@ -38,22 +40,55 @@ def stochastic_gradient_descent(gradient_funcs, w_init, alpha, num_iterations):
 gradient_funcs = [grad_L1, grad_L2, grad_L3]
 
 # Define the initial weights
-w_init = np.array([100, 700000])
+w_init = np.array([394, 400])
 
 # Define the learning rate
-alpha = .01
+alpha = .0000002
+
+import matplotlib.pyplot as plt
 
 # Define the number of iterations
 num_iterations = 1000
 
-# Perform gradient descent
-w = gradient_descent(gradient_funcs, w_init, alpha, num_iterations)
-w_stochastic = stochastic_gradient_descent(gradient_funcs, w_init, alpha, num_iterations)
+# Initialize lists to store the weights for each iteration
+weights_gradient = []
+weights_stochastic = []
 
-# Print the results
-#print the weights and learning rate used:
-print('Learning Rate:', alpha)
-print('Initial Weights:', w_init)
-print('Gradient Descent:', w)
-print('Stochastic Gradient Descent:', w_stochastic)
-# The results show that the stochastic gradient descent algorithm converges to the same minimum as the gradient descent algorithm, but it does so in a more efficient manner by using a random sample of the loss functions at each iteration.
+# Perform gradient descent
+w = w_init
+start_time = time.time()
+for i in range(num_iterations):
+    w = gradient_descent(gradient_funcs, w, alpha, 1)
+    weights_gradient.append(w)
+end_time = time.time()
+
+# Calculate the runtime of gradient descent
+gradient_descent_runtime = end_time - start_time
+
+# Perform stochastic gradient descent
+w_stochastic = w_init
+start_time = time.time()
+for i in range(num_iterations):
+    w_stochastic = stochastic_gradient_descent(gradient_funcs, w_stochastic, alpha, 1)
+    weights_stochastic.append(w_stochastic)
+end_time = time.time()
+
+# Calculate the runtime of stochastic gradient descent
+stochastic_gradient_descent_runtime = end_time - start_time
+
+# Convert the weights lists to numpy arrays
+weights_gradient = np.array(weights_gradient)
+weights_stochastic = np.array(weights_stochastic)
+
+# Plot the results
+plt.plot(range(num_iterations), weights_gradient[:, 0], label='Gradient Descent')
+plt.plot(range(num_iterations), weights_stochastic[:, 0], label='Stochastic Gradient Descent')
+plt.xlabel('Number of Iterations')
+plt.ylabel('Weight')
+plt.title('Stochastic Gradient Descent vs Gradient Descent, Alpha = ' + str(alpha))
+plt.legend()
+plt.show()
+
+# Print the runtime of each algorithm
+print("Gradient Descent Runtime:", gradient_descent_runtime)
+print("Stochastic Gradient Descent Runtime:", stochastic_gradient_descent_runtime)
