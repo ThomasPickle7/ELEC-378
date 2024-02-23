@@ -6,11 +6,10 @@ import matplotlib.pyplot as plt
 import matplotlib.image as im
 import matplotlib.pyplot as plt
 
-file = sc.loadmat('ELEC-378\ELEC-378\HW4\CS.mat')
+file = sc.loadmat('ELEC-378\HW4\CS.mat')
 y = file['y']
 phi = file['Phi']
 psi = file['Psi']
-print(phi.shape, psi.shape, y.shape)
 #Compute the inverse of phi*psi
 
 
@@ -43,7 +42,7 @@ phi_c = phi[indices]
 #solve for s_ridge with a variable parameter lmabda
 from sklearn.linear_model import Ridge
 # Create a ridge regression model
-ridge = Ridge(alpha=1)
+ridge = Ridge(alpha=.0004)
 
 # Fit the model to the data
 ridge.fit(phi_c @ psi, y_c)
@@ -51,7 +50,6 @@ ridge.fit(phi_c @ psi, y_c)
 # Calculate s using the model
 s_ridge = ridge.coef_[0]
 
-print(s_ridge.shape, psi.shape)
 # Calculate the image x using x = Psi * s
 x_ridge = psi @ s_ridge
 
@@ -66,7 +64,7 @@ plt.show()
 #calculate the recovery using LASSO with a variable parameter lambda
 from sklearn.linear_model import Lasso
 # Create a Lasso model
-lasso = Lasso(alpha=1e-19)
+lasso = Lasso(alpha=.0004)
 
 # Fit the model to the data
 lasso.fit(phi_c @ psi, y_c)
@@ -98,11 +96,12 @@ x_image_sparse = np.reshape(x_sparse, (64, 64))
 
 # Plot the image
 plt.imshow(x_image_sparse)
-plt.title('Reconstructed Image')
+plt.title('Sparse Reconstructed Image')
 plt.show()
 
 #keep 2*K of the indices from earlier, without replacement
 K = np.count_nonzero(s_sparse)
+print(K)
 sparse_indices = indices[np.sort(rng.choice(len(indices), 2*K, replace=False))]
 
 y_c_sparse = y[sparse_indices]
@@ -112,7 +111,7 @@ phi_c_sparse = phi[sparse_indices]
 #solve for s_ridge with a variable parameter lmabda
 from sklearn.linear_model import Ridge
 # Create a ridge regression model
-ridge_sparse = Ridge(alpha=1)
+ridge_sparse = Ridge(alpha=.0004)
 
 # Fit the model to the data
 ridge_sparse.fit(phi_c_sparse @ psi, y_c_sparse)
@@ -128,13 +127,13 @@ x_image_ridge_sparse = np.reshape(x_ridge_sparse, (64, 64))
 
 # Plot the image
 plt.imshow(x_image_ridge_sparse)
-plt.title('Ridge Regression Reconstructed Image')
+plt.title('Sparse Ridge Regression Reconstructed Image')
 plt.show()
 
 #calculate the recovery using LASSO with a variable parameter lambda
 
 # Create a Lasso model
-lasso_sparse = Lasso(alpha=1e-19)
+lasso_sparse = Lasso(alpha=.0004)
 
 # Fit the model to the data
 
@@ -152,7 +151,18 @@ x_image_lasso_sparse = np.reshape(x_lasso_sparse, (64, 64))
 
 # Plot the image
 plt.imshow(x_image_lasso_sparse)
-plt.title('LASSO Reconstructed Image')
+plt.title('Sparse LASSO Reconstructed Image')
 plt.show()
+
+
+
+#save the images
+im.imsave('ground_truth.png', x_image)
+im.imsave('ridge_reconstruction.png', x_image_ridge)
+im.imsave('lasso_reconstruction.png', x_image_lasso)
+im.imsave('sparse_reconstruction.png', x_image_sparse)
+im.imsave('sparse_ridge_reconstruction.png', x_image_ridge_sparse)
+im.imsave('sparse_lasso_reconstruction.png', x_image_lasso_sparse)
+
 
 
