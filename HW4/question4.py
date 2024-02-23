@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 import matplotlib.image as im
 import matplotlib.pyplot as plt
 
-file = sc.loadmat('ELEC-378\HW4\CS.mat')
+file = sc.loadmat('ELEC-378/HW4/CS.mat')
 y = file['y']
 phi = file['Phi']
 psi = file['Psi']
