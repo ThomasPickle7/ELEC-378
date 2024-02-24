@@ -3,6 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.image as im
 from sklearn.linear_model import Lasso, Ridge
+import os
 
 
 alpha = .99
@@ -103,12 +104,12 @@ x_image_lasso_sparse = np.reshape(x_lasso_sparse, (64, 64))
 plt.imshow(x_image_lasso_sparse)
 
 #save the images to the current directory
-im.imsave('ELEC-378/HW4/ground_truth.png', x_image)
-im.imsave('ELEC-378/HW4/ridge_reconstruction.png', x_image_ridge)
-im.imsave('ELEC-378/HW4/lasso_reconstruction.png', x_image_lasso)
-im.imsave('ELEC-378/HW4/sparse_reconstruction.png', x_image_sparse)
-im.imsave('ELEC-378/HW4/sparse_ridge_reconstruction.png', x_image_ridge_sparse)
-im.imsave('ELEC-378/HW4/sparse_lasso_reconstruction.png', x_image_lasso_sparse)
+im.imsave(os.path.join(os.getcwd(), 'ground_truth.png'), x_image)
+im.imsave(os.path.join(os.getcwd(), 'ridge_reconstruction.png'), x_image_ridge)
+im.imsave(os.path.join(os.getcwd(), 'lasso_reconstruction.png'), x_image_lasso)
+im.imsave(os.path.join(os.getcwd(), 'sparse_reconstruction.png'), x_image_sparse)
+im.imsave(os.path.join(os.getcwd(), 'sparse_ridge_reconstruction.png'), x_image_ridge_sparse)
+im.imsave(os.path.join(os.getcwd(), 'sparse_lasso_reconstruction.png'), x_image_lasso_sparse)
 
 
 
