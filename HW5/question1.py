@@ -16,12 +16,9 @@ def knearest(k, X_train, y_train, X_test, metric):
     if X_test.ndim < 2:
         X_test = [X_test]
     distances = cdist(X_test, X_train, metric)
-
     nearest = np.argsort(distances, axis=1)[:, :k]
-
     y_nearest = y_train[nearest]
-
-    # return the 1d array of the most common element in each row
+        # return the 1d array of the most common element in each row
     return mode(y_nearest, axis=1)[0].ravel()
 
 misclassification_rates = {'euclidean': [], 'cityblock': [], 'chebyshev': []}
