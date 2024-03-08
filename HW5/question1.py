@@ -22,16 +22,16 @@ def knearest(k, X_train, y_train, X_test, metric):
     return mode(y_nearest, axis=1)[0].ravel()
 
 misclassification_rates = {'euclidean': [], 'cityblock': [], 'chebyshev': []}
-for k in range(1, 21):
+for k in range(1, 100):
     for metric in misclassification_rates.keys():  
         y_pred = knearest(k, X_train, y_train, X_test, metric)
         misclassification_rate = np.mean(y_pred != y_test)
         misclassification_rates[metric].append(misclassification_rate)
         print(f'k={k}, misclassification rate={misclassification_rate}')
 # Plot the misclassification rates
-plt.plot(range(1, 21), misclassification_rates['euclidean'], label='euclidean')
-plt.plot(range(1, 21), misclassification_rates['cityblock'], label='cityblock')
-plt.plot(range(1, 21), misclassification_rates['chebyshev'], label='chebyshev')
+plt.plot(range(1, 100), misclassification_rates['euclidean'], label='euclidean')
+plt.plot(range(1, 100), misclassification_rates['cityblock'], label='cityblock')
+plt.plot(range(1, 100), misclassification_rates['chebyshev'], label='chebyshev')
 plt.ylabel('Misclassification rate')
 plt.legend()
 plt.show()
