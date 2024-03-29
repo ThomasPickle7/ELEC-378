@@ -65,6 +65,31 @@ for i in range(T - 1):
     # initialize the gradient as zeros
     sw = np.zeros(p)
     sb = 0;
-    # iter
+    # iterates through all data points
+    for j in range(n):
+        foo = Y[j] * (np.dot(ws[i], X[j]) + bs[i])
+        h_grad_thresh = foo * np.add(ws[i], lamb * Y[j] * X[j])
+        if foo < 1:
+            siw = np.add(sw, h_grad_thresh)
+            sib = sb + Y[j]
+        else:
+            siw = sw
+            sib = sb
+        sw = np.add(sw, siw)
+        sb = np.add(sb, sib)
+    ws[i + 1] = np.subtract(ws[i], mu * sw)
+    bs[i + 1] = np.subtract(bs[i], mu * sb)
+
+
+plt.figure()
+plt.scatter(X[:,0], X[:,1], c=Y)
+colors = plt.cm.Oranges(np.linspace(0,1,T+1))
+plt.ylim(-3, 5)
+for t in range(T):
+  plot_hyperplane(x_axis, ws[t], bs[t], colors[t])
+
+ # adjust y axis limits as needed
+plt.show()
+
 
 
