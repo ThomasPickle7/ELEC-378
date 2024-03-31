@@ -32,7 +32,7 @@ def plot_hyperplane(x_axis, w, b, c = 'k'):
 x_axis = np.linspace(np.min(X[:, 0]), np.max(X[:, 0]), 100)
 # a) Plot the initial hyperplane
 plt.figure()
-plt.ylim(-5, 5)
+plt.ylim(-3, 5)
 plt.style.use('fivethirtyeight')  
 plt.title("initial hyperplane")  
 plt.scatter(X[:, 0], X[:, 1], c = Y)
@@ -91,7 +91,7 @@ gradient_descent(T, p, n, lamb, mu, ws, bs, X, Y)
 
 # Plot the descended hyperplanes
 plt.figure()
-plt.title("Gradient-descended hyperplanes, random initialization")
+plt.title("Gradient-descended, random initialization")
 plt.scatter(X[:, 0], X[:, 1], c = Y)
 for t in range(T):
     plot_hyperplane(x_axis, ws[t], bs[t], 'cornflowerblue')
@@ -109,7 +109,7 @@ ws[0] = w0
 bs[0] = b0
 
 plt.figure()
-plt.title("Gradient-descended hyperplanes, zero initializations")
+plt.title("Gradient-descended, zero initializations")
 gradient_descent(T, p, n, lamb, mu, ws, bs, X, Y)
 plt.scatter(X[:, 0], X[:, 1], c = Y)
 colors = plt.cm.RdYlBu(np.linspace(0, 1, T + 1))
@@ -137,7 +137,7 @@ ws[0] = w0
 bs[0] = b0
 
 plt.figure()
-plt.title("Gradient-descended hyperplanes, lambda = 10")
+plt.title("Gradient-descended, lambda = 10")
 gradient_descent(T, p, n, lamb, mu, ws, bs, X, Y)
 plt.scatter(X[:, 0], X[:, 1], c = Y)
 colors = plt.cm.RdYlBu(np.linspace(0, 1, T + 1))
@@ -156,7 +156,7 @@ ws[0] = w0
 bs[0] = b0
 
 plt.figure()
-plt.title("Gradient-descended hyperplanes, lambda = .1")
+plt.title("Gradient-descended, lambda = .1")
 gradient_descent(T, p, n, lamb, mu, ws, bs, X, Y)
 plt.scatter(X[:, 0], X[:, 1], c = Y)
 colors = plt.cm.RdYlBu(np.linspace(0, 1, T + 1))
@@ -174,7 +174,7 @@ ws[0] = w0
 bs[0] = b0
 
 plt.figure()
-plt.title("Gradient-descended hyperplanes, lambda = 1")
+plt.title("Gradient-descended, lambda = 1")
 gradient_descent(T, p, n, lamb, mu, ws, bs, X, Y)
 plt.scatter(X[:, 0], X[:, 1], c = Y)
 colors = plt.cm.RdYlBu(np.linspace(0, 1, T + 1))
@@ -243,7 +243,7 @@ gradient_descent(T, p, n, lamb, mu, ws, bs, X, Y)
 x_axis = np.linspace(np.min(X[:, 0]), np.max(X[:, 0]), 100)
 plt.figure()
 plt.scatter(X[:, 0], X[:, 1], c = Y)
-plt.title("Gradient-descended hyperplanes on train2, random initialization")
+plt.title("Gradient-descended on train2, random initialization")
 colors = plt.cm.RdYlBu(np.linspace(0, 1, T + 1))
 for t in range(T):
     plot_hyperplane(x_axis, ws[t], bs[t], colors[t])
